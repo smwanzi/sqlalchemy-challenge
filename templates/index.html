@@ -1,0 +1,30 @@
+<!doctype html>
+{% extends 'layout.html' %}
+
+{% block title %}Aloha! | {{ super() }}{% endblock %}
+
+{% block header %}
+Aloha! Welcome to Hawaii Climate Data API 
+{% endblock %}
+
+{% block content %}
+Available Routes: <br>
+<br>
+<a href="/api/v1.0/precipitation">/api/v1.0/precipitation</a> <br>
+<br>
+<a href="/api/v1.0/stations">/api/v1.0/stations</a> <br>
+<br>
+<a href="/api/v1.0/tobs">/api/v1.0/tobs</a> <br>
+<br>
+Observation Start Date in YYYY-MM-DD format (example) <br>
+<a href="/api/v1.0/{start date}">/api/v1.0/{start date}</a> <br>
+<br>
+<a href='/api/v1.0/onetemp/2017-06-10'>example</a> <br/>
+<br>
+Observation Start Date/End Date in YYYY-MM-DD format (example) <br>
+<br>
+<a href="/api/v1.0/{start date}/{end date}">/api/v1.0/{start date}/{end date}</a> <br>
+<br>
+<a href='/api/v1.0/twotemp/2017-06-10/2017-06-24'>example</a> <br>
+<br>
+{% endblock %}
