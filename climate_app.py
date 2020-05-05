@@ -99,21 +99,15 @@ def temperatures():
 # Return a JSON list of the minimum temperature, the average temperature, 
 # and the max temperature for a given start or start-end range
 
-@app.route("/api/v1.0/onetemp/<string:date1>")
-def onedate(date1):
+@app.route("/api/v1.0/startdate/<string:start_date>")
+def startdate(start_date):
     Measurement = Base.classes.measurement
-    """Return temperature data"""
-    try:
-        (date1)
-    except ValueError:
-        return f"The date {date1} is not in the correct format or is invalid"
-
-    results = session.query(func.min(Measurement.tobs).label('min'), \
-    func.avg(Measurement.tobs).label('avg')\
-    , func.max(Measurement.tobs).label('max')).\
-    filter(Measurement.date >= date1).all()
+    start_date = '2017-03-01'
     
-    # Unravel the results
+    results = session.query(func.min(Measurement.tobs).label('min'), \
+        func.avg(Measurement.tobs).label('avg')\
+        , func.max(Measurement.tobs).label('max')).\
+        filter(Measurement.date >= start_date).all()
     stats = list(np.ravel(results))
     tmp_stats = []
     for result in results:
@@ -124,36 +118,42 @@ def onedate(date1):
         tmp_stats.append(result_dict)
 
     return jsonify(tmp_stats)
-
-# When given the start and the end date, calculate the TMIN, TAVG, 
-# and TMAX for dates between the start and end date inclusive
-
-@app.route("/api/v1.0/twotemp/<string:date1>/<string:date2>")
-def twodates(date1, date2):
-
-    try:
-        (date1)
-        (date2)
-    except ValueError:
-        return f"The date {date1} or {date2} is not in the correct format or is invalid"
-
+   
+@app.route("/api/v1.0/daterange/<string:start_date>/<string:end_date>")
+def daterange(start_date, end_date):
     Measurement = Base.classes.measurement
+    start_date = '2017-03-01'
+    end_date = '2017-03-15'
+    
+    # generate list of dates for selected period
+    sel = [func.min(Measurement.tobs), func.avg(Measurement.tobs), func.max(Measurement.tobs)]
+    results = session.query(*sel).filter(func.strftime("%Y-%m-%d", Measurement.date) >= start_date).\
+        filter(Measurement.date <= end_date).group_by(Measurement.date).all()
 
-    results = session.query(func.min(Measurement.tobs).label('min'),\
+    date_list = []
+    for tdate in results:
+        date_list.append(tdate)
+    return jsonify(date_list)
+    
+        # try:
+    #     (start_date)
+    #     (end_date)
+    # except ValueError:
+    #     return f"The date {date1} or {date2} is not in the correct format or is invalid"
+    results=session.query(func.min(Measurement.tobs).label('min'),\
      func.avg(Measurement.tobs).label('avg')\
     , func.max(Measurement.tobs).label('max')).\
-    filter(Measurement.date >= date1).filter(Measurement.date <= date2).all()
+    filter(Measurement.date >= start_date).filter(Measurement.date <= end_date).all()
     
     #Unravel the results
-    tmp_stats = []
-    for result in results:
+    daterange_stats = []
+    for result in results:    
         result_dict = {}
         result_dict["min"] = result.min
         result_dict["avg"] = result.avg
         result_dict["max"] = result.max
-        tmp_stats.append(result_dict)
-
-    return jsonify(tmp_stats)
+        daterange_stats.append(result_dict)     
+    return jsonify(daterange_stats) 
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -16,26 +16,23 @@ Available Routes: <br>
 <br>
 <a href="/api/v1.0/tobs">/api/v1.0/tobs</a> <br>
 <br>
-List of the min, avg, and max temperature <br>
+<a href="/api/v1.0/{start date}">/api/v1.0/{start_date}</a> <br>
 <br>
-Replace {start date} with your date in the format yyyy-mm-dd <br> (see example) <br>
-<a href="/api/v1.0/{start date}">/api/v1.0/{start date}</a> <br>
-<a href='/api/v1.0/onetemp/2017-06-10'>example</a> <br/>
+Enter Start Date in YYYY-MM-DD format  <br> (see example) <br>
 <br>
-Replace {start date} and {end date} with your dates in the format yyyy-mm-dd <br> (see example) <br>
+  <label for="startdate">Start date:</label>
+  <input type="date" value="2017-03-01" min="2016-08-23" max="2017-08-23"></a> <br>
+<a href='/api/v1.0/startdate/2017-03-01'>example</a> <br/>
 <br>
-<a href="/api/v1.0/{start date}/{end date}">/api/v1.0/{start date}/{end date</a> <br>
-<a href='/api/v1.0/twotemp/2017-06-10/2017-06-24'>example</a> <br>
+<a href="/api/v1.0/{start date}/{end date}">/api/v1.0/{start date}/{end date}</a> <br>
 <br>
-<form>
-    <label>
-      Choose start and end dates:
-      <input type="date" name="Start Date" min="2016-08-23" max="2017-08-23" required>
-      <span class="validity"></span>
-    </label>
+  Enter Start Date/End Date in YYYY-MM-DD format <br> (see example) <br>
+<br>
+  <label for="daterange"></label>
+  Start Date:<input type="date" value="2017-03-01" min="2016-08-23" max="2017-08-23"></a> <br>
+  <br>
+   End Date:<input type="date" value="2017-03-15" min="2016-08-23" max="2017-08-23"></a> <br>
+<a href='/api/v1.0/daterange/2017-03-01/2017-03-15'>example</a> <br>
 <br> 
-    <p>
-      <button>Submit</button>
-    </p>
-  </form>
+Thank you for using Hawaii Weather API!
 {% endblock %}
